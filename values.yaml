@@ -1,0 +1,56 @@
+replicaCount: 1
+
+image:
+  pastefy:
+    repository: interaapps/pastefy
+    pullPolicy: Always
+    tag: "latest"
+  mysql:
+    repository: mariadb
+    tag: "10.11"
+
+service:
+  pastefy:
+    type: ClusterIP
+    port: 80
+  mysql:
+    type: ClusterIP
+    port: 3306
+
+ingress:
+  enabled: true
+  host: pastefy.example.com
+  tls:
+    enabled: true
+    name: tls-secret
+    cert: base64EncodedCertificate
+    key: base64EncodedKey
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+mysql:
+  rootPassword: pastefy
+  database: pastefy
+  user: pastefy
+  password: pastefy
+  storage:
+    className: standard
+    size: 10Gi
+
+pastefy:
+  serverPort: 80
+  cors: "*"
+  databaseHost: mysql
+  databasePort: 3306
+  serverName: "pastefy.example.com"
+  oauth2:
+    clientId: ""
+    clientSecret: ""
+  publicStats: true
+  listPastes: true

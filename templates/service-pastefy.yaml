@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pastefy.fullname" . }}-pastefy
+  labels:
+    {{- include "pastefy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.pastefy.type }}
+  ports:
+    - port: {{ .Values.service.pastefy.port }}
+      targetPort: {{ .Values.service.pastefy.port }}
+  selector:
+    app: pastefy

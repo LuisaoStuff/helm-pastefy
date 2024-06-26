@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "pastefy.fullname" . }}-config
+data:
+  HTTP_SERVER_PORT: "{{ .Values.pastefy.serverPort }}"
+  HTTP_SERVER_CORS: "{{ .Values.pastefy.cors }}"
+  DATABASE_DRIVER: "mysql"
+  DATABASE_NAME: "{{ .Values.mysql.database }}"
+  DATABASE_USER: "{{ .Values.mysql.user }}"
+  DATABASE_PASSWORD: "{{ .Values.mysql.password }}"
+  DATABASE_HOST: "{{ include "pastefy.fullname" . }}-mysql"
+  DATABASE_PORT: "{{ .Values.pastefy.databasePort }}"
+  SERVER_NAME: "https://{{ .Values.ingress.host }}"
+  OAUTH2_PROVIDER_CLIENT_ID: "{{ .Values.pastefy.oauth2.clientId }}"
+  OAUTH2_PROVIDER_CLIENT_SECRET: "{{ .Values.pastefy.oauth2.clientSecret }}"
+  PASTEFY_LIST_PASTES: "{{ .Values.pastefy.listPastes }}"
+  PASTEFY_PUBLIC_STATS: "{{ .Values.pastefy.publicStats }}"

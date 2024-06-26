@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pastefy.fullname" . }}-pastefy
+  labels:
+    {{- include "pastefy.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: pastefy
+  template:
+    metadata:
+      labels:
+        app: pastefy
+    spec:
+      containers:
+      - name: pastefy
+        image: "{{ .Values.image.pastefy.repository }}:{{ .Values.image.pastefy.tag }}"
+        imagePullPolicy: {{ .Values.image.pastefy.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.pastefy.port }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "pastefy.fullname" . }}-config

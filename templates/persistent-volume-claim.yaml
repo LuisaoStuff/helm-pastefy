@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pastefy-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.mysql.storage.className }}
+  volumeName: pastefy-db-pv
+  resources:
+    requests:
+      storage: {{ .Values.mysql.storage.size }}
