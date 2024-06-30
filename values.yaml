@@ -19,12 +19,13 @@ service:
 
 ingress:
   enabled: true
-  host: pastefy.example.com
-  tls:
-    enabled: true
-    name: tls-secret
-    cert: base64EncodedCertificate
-    key: base64EncodedKey
+  hosts: []
+  #- host: pastebin.example.com
+  #  tls:
+  #    enabled: true
+  #    name: tls-secret
+  #    cert: base64EncodedCertificate
+  #    key: base64EncodedKey
 
 resources: {}
 

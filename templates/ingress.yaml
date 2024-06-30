@@ -1,23 +1,28 @@
+{{ $fullname := include "pastefy.fullname" . }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "pastefy.fullname" . }}
+  name: {{ $fullname }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
+  {{- range .Values.ingress.hosts }}
     - hosts:
-        - {{ .Values.ingress.host }}
-      secretName: {{ .Values.ingress.tls.name }}
+        - {{ .host }}
+      secretName: {{ .tls.name }}
+  {{- end }}
   rules:
-    - host: {{ .Values.ingress.host }}
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ include "pastefy.fullname" . }}-pastefy
+                name: {{ $fullname }}-pastefy
                 port:
-                  number: {{ .Values.service.pastefy.port }}
+                  number: {{ $.Values.service.pastefy.port }}
+  {{- end }}
